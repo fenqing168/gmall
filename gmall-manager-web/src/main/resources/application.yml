@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    root: info
+
+dubbo:
+  application:
+    name: gmall-manager-web-consumer
+  registry:
+    address: zookeeper://120.76.139.86:2181
+  monitor:
+    protocol: registry

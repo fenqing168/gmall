@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://120.76.139.86:3306/ums?characterEncoding=utf8
+    driver-class-name:
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    root: info
+
+dubbo:
+  application:
+    #当前服务/应用的名字
+    name: gmall-mumber-service-provider
+  #注册中心的协议和地址
+  registry:
+    protocol: zookeeper
+    address: 120.76.139.86:2181
+  #通信规则（通信协议和接口）
+  protocol:
+    name: dubbo
+    port: 20880
+  #连接监控中心
+  monitor:
+    protocol: registry
