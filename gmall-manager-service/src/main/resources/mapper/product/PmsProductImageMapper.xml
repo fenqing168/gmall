@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fenqing168.gmall.modules.product.mapper.PmsProductImageMapper">
+
+
+	<insert id="inserts">
+		insert into pms_product_image(product_id, img_name, img_url) values
+		<foreach collection="pmsProductImages" item="pmsProductImage" separator=",">
+			(#{pmsProductImage.productId}, #{pmsProductImage.imgName}, #{pmsProductImage.imgUrl})
+		</foreach>
+	</insert>
+</mapper>

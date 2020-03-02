@@ -98,10 +98,27 @@ public class FenqingDataUtil {
      * @author fenqing
      */
     public static <T> Object getValue(final T t, final String field) {
+
         try {
+
             Class c = t.getClass();
-            Method get = c.getMethod(MethodPrefix.GET.getValue() + initialToUpper(field));
-            return get.invoke(t);
+            try {
+                Class temp = c;
+                Field field1 = null;
+                while (temp != null){
+                    field1 = temp.getDeclaredField(field);
+                    try {
+                        temp = temp.getSuperclass();
+                    }catch (Exception e){
+
+                    }
+                    field1.setAccessible(true);
+                }
+                return field1.get(t);
+            }catch (Exception e){
+                Method get = c.getMethod(MethodPrefix.GET.getValue() + initialToUpper(field));
+                return get.invoke(t);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -138,9 +155,24 @@ public class FenqingDataUtil {
     public static void setValue(final Object o, final String field, final Object data) {
         try {
             Class<?> aClass = o.getClass();
-            Class<?> dataClass = getFieldType(o, field);
-            Method set = aClass.getMethod(MethodPrefix.SET.getValue() + initialToUpper(field), dataClass);
-            set.invoke(o, data);
+            Field field1 = null;
+            Class<?> temp = aClass;
+            while (field1 == null){
+                try {
+                    field1 = temp.getDeclaredField(field);
+                }catch (Exception e){
+                    temp = temp.getSuperclass();
+                }
+            }
+
+            field1.setAccessible(true);
+            try {
+                field1.set(o, data);
+            }catch (Exception e){
+                Class<?> dataClass = getFieldType(o, field);
+                Method set = aClass.getMethod(MethodPrefix.SET.getValue() + initialToUpper(field), dataClass);
+                set.invoke(o, data);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -475,11 +507,19 @@ public class FenqingDataUtil {
         }
         Class<?> parentClass = parents.get(0).getClass();
         Field[] parentFields = parentClass.getDeclaredFields();
+        Constructor<Y> constructor = null;
         try {
+            constructor = childType.getDeclaredConstructor();
+            constructor.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        try {
+            Constructor<Y> constructor1 = constructor;
             parents.forEach(item -> {
                 Y y = null;
                 try {
-                    y = childType.newInstance();
+                    y = constructor1.newInstance();
                     for (Field field : parentFields) {
                         if (Modifier.isStatic(field.getModifiers())) {
                             continue;

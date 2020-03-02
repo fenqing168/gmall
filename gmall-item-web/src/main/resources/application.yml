@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+logging:
+  level:
+    root: info
+
+dubbo:
+  application:
+    name: gmall-item-web-consumer
+  registry:
+    address: zookeeper://120.76.139.86:2181
+  monitor:
+    protocol: registry
+
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html

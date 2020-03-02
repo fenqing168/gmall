@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fenqing168.gmall.modules.product.mapper.PmsProductSaleAttrValueMapper">
+
+
+	<insert id="inserts">
+		insert into pms_product_sale_attr_value(product_id, sale_attr_id, sale_attr_value_name) values
+		<foreach collection="pmsProductSaleAttrValues" item="pmsProductSaleAttrValue" separator=",">
+			(#{pmsProductSaleAttrValue.productId}, #{pmsProductSaleAttrValue.saleAttrId}, #{pmsProductSaleAttrValue.saleAttrValueName})
+		</foreach>
+	</insert>
+    <select id="selectByProductIdAndSaleAttrId"
+            resultType="cn.fenqing168.gmall.modules.product.po.PmsProductSaleAttrValue">
+		<foreach collection="productIdAndSaleAttrIds" item="productIdAndSaleAttrId" separator="union">
+			select * from pms_product_sale_attr_value where product_id = #{productIdAndSaleAttrId.productId} and sale_attr_id = #{productIdAndSaleAttrId.saleAttrId}
+		</foreach>
+	</select>
+</mapper>

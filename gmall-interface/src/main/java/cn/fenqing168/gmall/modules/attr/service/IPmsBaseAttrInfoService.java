@@ -1,7 +1,7 @@
 package cn.fenqing168.gmall.modules.attr.service;
 
 import cn.fenqing168.gmall.modules.attr.dto.PmsBaseAttrInfoDto;
-import cn.fenqing168.gmall.modules.attr.po.PmsBaseAttrInfo;
+import cn.fenqing168.gmall.modules.attr.vo.PmsBaseAttrInfoVo;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface IPmsBaseAttrInfoService {
      * @param catalog3Id
      * @return
      */
-    List<PmsBaseAttrInfo> attrInfoList(Long catalog3Id);
+    List<PmsBaseAttrInfoVo.Values> attrInfoList(Long catalog3Id);
 
     /**
      * 保存
